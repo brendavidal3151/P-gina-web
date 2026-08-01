@@ -1,1 +1,968 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estrategas 360 | Excel &amp; Power BI para tomar mejores decisiones</title>
+<meta name="description" content="Cursos de Excel y Power BI para profesionales que quieren convertir datos en decisiones. Estrategas 360, con Brenda Vidal Núñez.">
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --teal-dark:#003F44;
+    --teal-dark-2:#01565d;
+    --cyan-light:#D8F1EF;
+    --white:#FFFFFF;
+    --slate:#263A3D;
+    --gray-light:#F2F4F4;
+    --black-soft:#1A1A1A;
+
+    --font-display:'Sora', sans-serif;
+    --font-body:'Inter', sans-serif;
+    --font-mono:'JetBrains Mono', monospace;
+
+    --radius-s:8px;
+    --radius-m:16px;
+    --radius-l:28px;
+    --maxw:1180px;
+    --transition: 220ms cubic-bezier(.4,0,.2,1);
+  }
+
+  *,*::before,*::after{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:var(--font-body);
+    color:var(--black-soft);
+    background:var(--white);
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  img{max-width:100%;display:block;}
+  a{color:inherit;text-decoration:none;}
+  ul{list-style:none;margin:0;padding:0;}
+  button{font-family:inherit;cursor:pointer;}
+  h1,h2,h3,h4{font-family:var(--font-display);margin:0;line-height:1.15;}
+  p{margin:0;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px;}
+
+  .eyebrow{
+    font-family:var(--font-mono);
+    font-size:.72rem;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    font-weight:600;
+  }
+
+  /* Focus visibility */
+  a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible{
+    outline:2.5px solid var(--cyan-light);
+    outline-offset:3px;
+    border-radius:4px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; scroll-behavior:auto !important;}
+  }
+
+  /* ---------- HEADER ---------- */
+  header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    background:rgba(0,63,68,.92);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid rgba(216,241,239,.12);
+  }
+  .nav{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:16px 24px;
+    max-width:var(--maxw);
+    margin:0 auto;
+  }
+  .logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family:var(--font-display);
+    font-weight:800;
+    font-size:1.05rem;
+    color:var(--white);
+    letter-spacing:.01em;
+  }
+  .logo .mark{
+    width:34px;height:34px;
+    border-radius:9px;
+    background:linear-gradient(135deg,var(--cyan-light),#8fd6cf);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--teal-dark);
+    font-family:var(--font-mono);
+    font-weight:700;
+    font-size:.8rem;
+    flex-shrink:0;
+  }
+  .logo span.accent{color:var(--cyan-light);}
+
+  .nav-links{
+    display:none;
+    align-items:center;
+    gap:34px;
+  }
+  .nav-links a{
+    font-size:.92rem;
+    font-weight:500;
+    color:var(--cyan-light);
+    opacity:.85;
+    transition:opacity var(--transition);
+    position:relative;
+  }
+  .nav-links a:hover{opacity:1;}
+
+  .nav-cta{
+    display:none;
+    background:var(--cyan-light);
+    color:var(--teal-dark);
+    font-weight:700;
+    font-size:.88rem;
+    padding:11px 22px;
+    border-radius:999px;
+    border:none;
+    transition:transform var(--transition), background var(--transition);
+  }
+  .nav-cta:hover{background:var(--white); transform:translateY(-1px);}
+
+  .burger{
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+    background:none;
+    border:none;
+    padding:6px;
+  }
+  .burger span{
+    width:24px;height:2px;background:var(--cyan-light);
+    transition:transform var(--transition), opacity var(--transition);
+  }
+  .burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .burger.open span:nth-child(2){opacity:0;}
+  .burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+  .mobile-menu{
+    max-height:0;
+    overflow:hidden;
+    background:var(--teal-dark);
+    transition:max-height 320ms ease;
+    border-top:1px solid rgba(216,241,239,.1);
+  }
+  .mobile-menu.open{max-height:340px;}
+  .mobile-menu ul{padding:14px 24px 22px;display:flex;flex-direction:column;gap:4px;}
+  .mobile-menu a{
+    display:block;
+    padding:12px 4px;
+    color:var(--cyan-light);
+    font-weight:500;
+    border-bottom:1px solid rgba(216,241,239,.08);
+  }
+  .mobile-menu .nav-cta{display:inline-flex;margin-top:10px;}
+
+  @media(min-width:900px){
+    .nav-links{display:flex;}
+    .nav-cta{display:inline-block;}
+    .burger{display:none;}
+    .mobile-menu{display:none;}
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    background:
+      radial-gradient(ellipse 900px 500px at 85% -10%, rgba(216,241,239,.14), transparent 60%),
+      linear-gradient(180deg, var(--teal-dark) 0%, var(--teal-dark-2) 100%);
+    color:var(--white);
+    padding:64px 0 72px;
+    position:relative;
+  }
+  .hero .wrap{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:48px;
+    align-items:center;
+  }
+  .hero-copy .eyebrow{color:var(--cyan-light);}
+  .hero-copy h1{
+    font-size:clamp(2.1rem, 6.5vw, 3.4rem);
+    margin-top:14px;
+    color:var(--white);
+  }
+  .hero-copy h1 em{
+    font-style:normal;
+    background:linear-gradient(90deg,var(--cyan-light),#9fe3db);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .hero-copy p.lead{
+    margin-top:20px;
+    font-size:1.08rem;
+    line-height:1.65;
+    color:rgba(216,241,239,.85);
+    max-width:52ch;
+  }
+  .hero-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:14px;
+    margin-top:32px;
+  }
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-weight:700;
+    font-size:.94rem;
+    padding:14px 26px;
+    border-radius:999px;
+    border:none;
+    transition:transform var(--transition), box-shadow var(--transition), background var(--transition);
+  }
+  .btn-primary{
+    background:var(--cyan-light);
+    color:var(--teal-dark);
+  }
+  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 14px 28px -12px rgba(216,241,239,.5);}
+  .btn-ghost{
+    background:transparent;
+    color:var(--white);
+    border:1.5px solid rgba(255,255,255,.3);
+  }
+  .btn-ghost:hover{border-color:var(--white); background:rgba(255,255,255,.06);}
+
+  .hero-stats{
+    display:flex;
+    gap:28px;
+    margin-top:44px;
+    flex-wrap:wrap;
+  }
+  .hero-stats div strong{
+    display:block;
+    font-family:var(--font-mono);
+    font-size:1.5rem;
+    color:var(--cyan-light);
+  }
+  .hero-stats div span{
+    font-size:.78rem;
+    color:rgba(216,241,239,.65);
+  }
+
+  /* Signature: animated dashboard panel */
+  .dash{
+    background:rgba(216,241,239,.06);
+    border:1px solid rgba(216,241,239,.16);
+    border-radius:var(--radius-l);
+    padding:22px;
+    backdrop-filter:blur(6px);
+  }
+  .dash-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:18px;
+  }
+  .dash-head .dots{display:flex;gap:6px;}
+  .dash-head .dots span{width:9px;height:9px;border-radius:50%;background:rgba(216,241,239,.35);}
+  .dash-head .label{
+    font-family:var(--font-mono);
+    font-size:.7rem;
+    color:var(--cyan-light);
+    letter-spacing:.06em;
+  }
+  .dash-grid{
+    display:grid;
+    grid-template-columns:1.3fr 1fr;
+    gap:14px;
+  }
+  .dash-card{
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(216,241,239,.1);
+    border-radius:var(--radius-m);
+    padding:16px;
+  }
+  .dash-card .kpi-label{font-family:var(--font-mono);font-size:.65rem;color:rgba(216,241,239,.6);letter-spacing:.05em;}
+  .dash-card .kpi-value{font-family:var(--font-mono);font-size:1.4rem;color:var(--white);margin-top:6px;font-weight:600;}
+  .bars{
+    display:flex;
+    align-items:flex-end;
+    gap:8px;
+    height:100px;
+    margin-top:14px;
+  }
+  .bars i{
+    display:block;
+    flex:1;
+    background:linear-gradient(180deg,var(--cyan-light),#6fc7be);
+    border-radius:4px 4px 0 0;
+    transform:scaleY(0);
+    transform-origin:bottom;
+    animation:growBar 1100ms cubic-bezier(.2,.8,.2,1) forwards;
+  }
+  @keyframes growBar{to{transform:scaleY(1);}}
+  .ring-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;}
+  .ring{
+    width:88px;height:88px;
+    border-radius:50%;
+    background:conic-gradient(var(--cyan-light) 0deg, var(--cyan-light) var(--ring-deg,0deg), rgba(255,255,255,.08) var(--ring-deg,0deg));
+    display:flex;align-items:center;justify-content:center;
+    animation:ringIn 1400ms ease forwards;
+  }
+  .ring::after{
+    content:attr(data-pct);
+    width:64px;height:64px;background:var(--teal-dark-2);
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--font-mono);font-size:.85rem;color:var(--white);
+  }
+  @keyframes ringIn{from{--ring-deg:0deg;} to{--ring-deg:var(--ring-final);}}
+  .trend{display:flex;align-items:center;gap:6px;margin-top:10px;font-family:var(--font-mono);font-size:.72rem;color:#8fe3b8;}
+
+  @media(min-width:960px){
+    .hero .wrap{grid-template-columns:1.05fr .95fr;}
+  }
+
+  /* ---------- SECTION HEADINGS ---------- */
+  .section{padding:76px 0;}
+  .section-head{max-width:620px; margin-bottom:44px;}
+  .section-head .eyebrow{color:var(--teal-dark);}
+  .section-head h2{
+    font-size:clamp(1.7rem,4vw,2.35rem);
+    margin-top:12px;
+    color:var(--black-soft);
+  }
+  .section-head p{
+    margin-top:14px;
+    color:var(--slate);
+    font-size:1.02rem;
+    line-height:1.6;
+  }
+  .section-head.on-dark h2{color:var(--white);}
+  .section-head.on-dark p{color:rgba(216,241,239,.8);}
+  .section-head.on-dark .eyebrow{color:var(--cyan-light);}
+  .section-head.center{margin-left:auto;margin-right:auto;text-align:center;}
+
+  /* ---------- SERVICIOS ---------- */
+  .servicios{background:var(--gray-light);}
+  .cards{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:22px;
+  }
+  @media(min-width:700px){.cards{grid-template-columns:1fr 1fr;}}
+  @media(min-width:1080px){.cards{grid-template-columns:repeat(4,1fr);}}
+
+  .card{
+    background:var(--white);
+    border-radius:var(--radius-m);
+    padding:26px 24px;
+    border:1px solid rgba(38,58,61,.08);
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    transition:transform var(--transition), box-shadow var(--transition);
+  }
+  .card:hover{transform:translateY(-5px); box-shadow:0 22px 40px -22px rgba(0,63,68,.25);}
+  .card .icon{
+    width:46px;height:46px;
+    border-radius:12px;
+    background:var(--teal-dark);
+    color:var(--cyan-light);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--font-mono);font-weight:700;
+  }
+  .card.featured{
+    background:var(--teal-dark);
+    color:var(--white);
+    border-color:transparent;
+    position:relative;
+  }
+  .card.featured .icon{background:var(--cyan-light);color:var(--teal-dark);}
+  .card.featured .tag{
+    position:absolute;top:-11px;right:20px;
+    background:var(--cyan-light);color:var(--teal-dark);
+    font-family:var(--font-mono);font-size:.65rem;font-weight:700;
+    padding:4px 10px;border-radius:999px;letter-spacing:.05em;
+  }
+  .card h3{font-size:1.12rem;}
+  .card p.desc{font-size:.9rem; line-height:1.55; color:var(--slate);}
+  .card.featured p.desc{color:rgba(216,241,239,.85);}
+  .card .meta{
+    display:flex;justify-content:space-between;align-items:center;
+    font-family:var(--font-mono);font-size:.78rem;
+    padding-top:14px;margin-top:auto;
+    border-top:1px solid rgba(38,58,61,.1);
+  }
+  .card.featured .meta{border-top-color:rgba(216,241,239,.18);}
+  .card .meta .price{font-weight:700;font-size:.95rem;}
+  .card-link{
+    display:inline-flex;align-items:center;gap:6px;
+    font-size:.85rem;font-weight:700;color:var(--teal-dark);
+  }
+  .card.featured .card-link{color:var(--cyan-light);}
+  .card-link .arrow{transition:transform var(--transition);}
+  .card:hover .card-link .arrow{transform:translateX(3px);}
+
+  /* ---------- SOBRE MI ---------- */
+  .about .wrap{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:44px;
+    align-items:center;
+  }
+  @media(min-width:940px){.about .wrap{grid-template-columns:.85fr 1.15fr;}}
+
+  .avatar-block{
+    background:linear-gradient(160deg,var(--teal-dark),var(--teal-dark-2));
+    border-radius:var(--radius-l);
+    padding:40px 30px;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .avatar-block::before{
+    content:"";
+    position:absolute;inset:0;
+    background:radial-gradient(circle at 30% 20%, rgba(216,241,239,.16), transparent 55%);
+  }
+  .avatar-circle{
+    width:118px;height:118px;
+    border-radius:50%;
+    margin:0 auto 20px;
+    background:var(--cyan-light);
+    color:var(--teal-dark);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--font-display);
+    font-weight:800;font-size:2rem;
+    position:relative;
+    border:3px solid rgba(255,255,255,.25);
+  }
+  .avatar-block h3{color:var(--white); font-size:1.25rem; position:relative;}
+  .avatar-block .role{color:var(--cyan-light); font-size:.88rem; margin-top:4px; position:relative;}
+  .cred-list{
+    margin-top:22px;
+    display:flex;flex-direction:column;gap:10px;
+    text-align:left;
+    position:relative;
+  }
+  .cred-list li{
+    font-size:.82rem;
+    color:rgba(216,241,239,.85);
+    display:flex;gap:9px;align-items:flex-start;
+    line-height:1.4;
+  }
+  .cred-list li::before{content:"✓";color:var(--cyan-light);font-weight:700;flex-shrink:0;}
+
+  .about-copy .eyebrow{color:var(--teal-dark);}
+  .about-copy h2{margin-top:12px;font-size:clamp(1.6rem,4vw,2.2rem);}
+  .about-copy p{margin-top:16px;color:var(--slate);line-height:1.7;font-size:1rem;}
+  .about-stats{
+    display:grid;grid-template-columns:repeat(3,1fr);
+    gap:14px;margin-top:30px;
+  }
+  .about-stats .stat{
+    background:var(--gray-light);
+    border-radius:var(--radius-s);
+    padding:16px 12px;
+    text-align:center;
+  }
+  .about-stats .stat strong{
+    display:block;font-family:var(--font-mono);color:var(--teal-dark);font-size:1.35rem;
+  }
+  .about-stats .stat span{font-size:.72rem;color:var(--slate);}
+
+  /* ---------- CONTACTO ---------- */
+  .contacto{
+    background:
+      radial-gradient(ellipse 700px 400px at 10% 0%, rgba(216,241,239,.1), transparent 60%),
+      var(--teal-dark);
+    color:var(--white);
+  }
+  .contact-grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:40px;
+  }
+  @media(min-width:940px){.contact-grid{grid-template-columns:.85fr 1.15fr;}}
+
+  .contact-info-list{margin-top:26px; display:flex; flex-direction:column; gap:20px;}
+  .contact-info-list .item{display:flex; gap:14px; align-items:flex-start;}
+  .contact-info-list .ico{
+    width:38px;height:38px;border-radius:10px;flex-shrink:0;
+    background:rgba(216,241,239,.12);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--cyan-light);font-family:var(--font-mono);font-size:.8rem;
+  }
+  .contact-info-list .item strong{display:block;font-size:.9rem;color:var(--white);}
+  .contact-info-list .item span{font-size:.84rem;color:rgba(216,241,239,.72);}
+
+  .social-row{display:flex;gap:10px;margin-top:28px;}
+  .social-row a{
+    width:38px;height:38px;border-radius:50%;
+    border:1px solid rgba(216,241,239,.3);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--font-mono);font-size:.7rem;color:var(--cyan-light);
+    transition:background var(--transition), transform var(--transition);
+  }
+  .social-row a:hover{background:rgba(216,241,239,.15); transform:translateY(-2px);}
+
+  form.contact-form{
+    background:var(--white);
+    border-radius:var(--radius-l);
+    padding:32px 28px;
+    color:var(--black-soft);
+  }
+  .form-row{display:grid;grid-template-columns:1fr;gap:16px;}
+  @media(min-width:560px){.form-row.two{grid-template-columns:1fr 1fr;}}
+  .field{display:flex;flex-direction:column;gap:6px;margin-top:16px;}
+  .field label{font-size:.8rem;font-weight:600;color:var(--slate);}
+  .field input, .field select, .field textarea{
+    font-family:var(--font-body);
+    font-size:.95rem;
+    padding:12px 14px;
+    border-radius:var(--radius-s);
+    border:1.5px solid rgba(38,58,61,.16);
+    background:var(--gray-light);
+    color:var(--black-soft);
+    transition:border-color var(--transition), background var(--transition);
+  }
+  .field input:focus, .field select:focus, .field textarea:focus{
+    border-color:var(--teal-dark);
+    background:var(--white);
+    outline:none;
+  }
+  .field textarea{resize:vertical;min-height:100px;}
+  .field.error input, .field.error select, .field.error textarea{border-color:#c94b4b;}
+  .field .err-msg{font-size:.74rem;color:#c94b4b;min-height:14px;}
+
+  .form-submit{
+    width:100%;
+    margin-top:22px;
+    background:var(--teal-dark);
+    color:var(--white);
+    padding:15px;
+    border-radius:999px;
+    font-weight:700;
+    font-size:.96rem;
+    border:none;
+    transition:background var(--transition), transform var(--transition);
+  }
+  .form-submit:hover{background:var(--teal-dark-2); transform:translateY(-1px);}
+  .form-note{font-size:.76rem;color:var(--slate);margin-top:12px;text-align:center;}
+
+  .success-msg{
+    display:none;
+    background:var(--cyan-light);
+    color:var(--teal-dark);
+    padding:16px 18px;
+    border-radius:var(--radius-s);
+    font-size:.88rem;
+    font-weight:600;
+    margin-top:18px;
+    align-items:center;
+    gap:10px;
+  }
+  .success-msg.show{display:flex;}
+
+  /* ---------- FOOTER ---------- */
+  footer{background:var(--black-soft); color:rgba(255,255,255,.72); padding:56px 0 26px;}
+  .footer-grid{
+    display:grid;grid-template-columns:1fr;gap:34px;
+  }
+  @media(min-width:760px){.footer-grid{grid-template-columns:1.3fr 1fr 1fr 1fr;}}
+  .footer-brand .logo{color:var(--white);}
+  .footer-brand p{margin-top:14px;font-size:.86rem;line-height:1.6;max-width:34ch;color:rgba(255,255,255,.55);}
+  footer h4{color:var(--white);font-size:.85rem;letter-spacing:.04em;text-transform:uppercase;font-family:var(--font-mono);margin-bottom:16px;}
+  footer ul li{margin-bottom:10px;}
+  footer ul a{font-size:.88rem;color:rgba(255,255,255,.65);transition:color var(--transition);}
+  footer ul a:hover{color:var(--cyan-light);}
+  .footer-bottom{
+    margin-top:46px;padding-top:22px;
+    border-top:1px solid rgba(255,255,255,.1);
+    display:flex;flex-direction:column;gap:10px;
+    font-size:.78rem;color:rgba(255,255,255,.4);
+  }
+  @media(min-width:700px){.footer-bottom{flex-direction:row;justify-content:space-between;}}
+
+  /* reveal-on-scroll */
+  .reveal{opacity:0; transform:translateY(18px); transition:opacity 650ms ease, transform 650ms ease;}
+  .reveal.in{opacity:1; transform:translateY(0);}
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="nav">
+    <a href="#inicio" class="logo"><span class="mark">E360</span>Estrategas<span class="accent">&nbsp;360</span></a>
+    <ul class="nav-links">
+      <li><a href="#inicio">Inicio</a></li>
+      <li><a href="#servicios">Servicios</a></li>
+      <li><a href="#nosotros">Nosotros</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+    <a href="#contacto" class="nav-cta">Empieza ahora</a>
+    <button class="burger" id="burgerBtn" aria-label="Abrir menú" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+  <div class="mobile-menu" id="mobileMenu">
+    <ul>
+      <li><a href="#inicio">Inicio</a></li>
+      <li><a href="#servicios">Servicios</a></li>
+      <li><a href="#nosotros">Nosotros</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+      <li><a href="#contacto" class="nav-cta">Empieza ahora</a></li>
+    </ul>
+  </div>
+</header>
+
+<main>
+
+  <!-- HERO -->
+  <section class="hero" id="inicio">
+    <div class="wrap">
+      <div class="hero-copy">
+        <span class="eyebrow">Excel · Power BI · Analítica aplicada</span>
+        <h1>Convierte tus datos en <em>decisiones</em> que mueven resultados</h1>
+        <p class="lead">Cursos prácticos de Excel y Power BI diseñados para profesionales que quieren dejar de perder horas armando reportes y empezar a construir tableros que de verdad se usan.</p>
+        <div class="hero-actions">
+          <a href="#servicios" class="btn btn-primary">Ver cursos</a>
+          <a href="#contacto" class="btn btn-ghost">Hablar con Brenda</a>
+        </div>
+        <div class="hero-stats">
+          <div><strong>12+</strong><span>años de experiencia</span></div>
+          <div><strong>4</strong><span>programas activos</span></div>
+          <div><strong>100%</strong><span>online y práctico</span></div>
+        </div>
+      </div>
+
+      <div class="dash reveal" id="dashCard">
+        <div class="dash-head">
+          <div class="dots"><span></span><span></span><span></span></div>
+          <span class="label">PANEL_VENTAS.pbix</span>
+        </div>
+        <div class="dash-grid">
+          <div class="dash-card">
+            <span class="kpi-label">INGRESOS · TRIMESTRE</span>
+            <div class="kpi-value">S/ 84,200</div>
+            <div class="bars" id="barsRow">
+              <i style="height:38%; animation-delay:80ms"></i>
+              <i style="height:62%; animation-delay:180ms"></i>
+              <i style="height:48%; animation-delay:280ms"></i>
+              <i style="height:80%; animation-delay:380ms"></i>
+              <i style="height:70%; animation-delay:480ms"></i>
+              <i style="height:95%; animation-delay:580ms"></i>
+            </div>
+            <div class="trend">▲ 18.4% vs. trimestre anterior</div>
+          </div>
+          <div class="dash-card ring-wrap">
+            <div class="ring" style="--ring-final:313deg" data-pct="87%"></div>
+            <span class="kpi-label" style="margin-top:12px;">META CUMPLIDA</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICIOS -->
+  <section class="servicios section" id="servicios">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow">Programas</span>
+        <h2>Cursos pensados para el trabajo real</h2>
+        <p>Cada programa parte de casos reales de negocio: ventas, finanzas, operaciones. Aprendes construyendo, no solo mirando.</p>
+      </div>
+
+      <div class="cards">
+        <div class="card reveal">
+          <span class="icon">PBI</span>
+          <h3>Power BI Esencial</h3>
+          <p class="desc">Del Excel desordenado a tu primer tablero interactivo: modelado de datos, DAX básico y visualizaciones que comunican.</p>
+          <div class="meta"><span>6 semanas</span><span class="price">Desde S/ 349</span></div>
+          <a href="#contacto" class="card-link">Ver programa <span class="arrow">→</span></a>
+        </div>
+
+        <div class="card reveal">
+          <span class="icon">PBI+</span>
+          <h3>Power BI Intermedio–Avanzado</h3>
+          <p class="desc">DAX avanzado, modelos de datos complejos, automatización de reportes y buenas prácticas de performance.</p>
+          <div class="meta"><span>8 semanas</span><span class="price">Desde S/ 449</span></div>
+          <a href="#contacto" class="card-link">Ver programa <span class="arrow">→</span></a>
+        </div>
+
+        <div class="card reveal">
+          <span class="icon">XLS</span>
+          <h3>Excel Empresarial</h3>
+          <p class="desc">Tablas dinámicas, fórmulas anidadas, control de gestión y plantillas listas para usar desde la primera semana.</p>
+          <div class="meta"><span>5 semanas</span><span class="price">Desde S/ 279</span></div>
+          <a href="#contacto" class="card-link">Ver programa <span class="arrow">→</span></a>
+        </div>
+
+        <div class="card featured reveal">
+          <span class="tag">Más elegido</span>
+          <span class="icon">360</span>
+          <h3>Master Pack Excel + Power BI</h3>
+          <p class="desc">Los tres programas anteriores en un solo camino, del cero al tablero avanzado, con Excel Empresarial de bonus.</p>
+          <div class="meta"><span>16 semanas</span><span class="price">Desde S/ 799</span></div>
+          <a href="#contacto" class="card-link">Ver programa <span class="arrow">→</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOBRE NOSOTROS -->
+  <section class="about section" id="nosotros">
+    <div class="wrap">
+      <div class="avatar-block reveal">
+        <div class="avatar-circle">BV</div>
+        <h3>Brenda Vidal Núñez</h3>
+        <div class="role">Fundadora, Estrategas 360</div>
+        <ul class="cred-list">
+          <li>Licenciatura en Gestión Empresarial — PUCP</li>
+          <li>Maestría en Marketing — ESAN</li>
+          <li>Máster en Marketing Science — ESIC, España</li>
+          <li>12+ años en consumo masivo, financiero y retail</li>
+        </ul>
+      </div>
+
+      <div class="about-copy reveal">
+        <span class="eyebrow">Sobre nosotros</span>
+        <h2>Enseñamos lo que usamos todos los días</h2>
+        <p>Estrategas 360 nace de una necesidad concreta: profesionales que dominan su área pero pierden horas valiosas armando reportes en Excel sin sacarle el jugo real a sus datos.</p>
+        <p>Con más de una década liderando proyectos de marketing y gestión comercial en empresas de consumo masivo, retail y servicios financieros, Brenda diseñó Estrategas 360 para compartir las mismas herramientas que usa en su día a día: Excel avanzado y Power BI aplicados a decisiones de negocio reales, no a ejercicios de práctica.</p>
+        <div class="about-stats">
+          <div class="stat"><strong>12+</strong><span>años de experiencia</span></div>
+          <div class="stat"><strong>3</strong><span>sectores de industria</span></div>
+          <div class="stat"><strong>C1</strong><span>inglés profesional</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section class="contacto section" id="contacto">
+    <div class="wrap">
+      <div class="contact-grid">
+        <div>
+          <div class="section-head on-dark reveal" style="margin-bottom:0;">
+            <span class="eyebrow">Contacto</span>
+            <h2>Cuéntanos qué quieres lograr</h2>
+            <p>Escríbenos y te ayudamos a elegir el programa que mejor se ajusta a tu nivel y a tus objetivos.</p>
+          </div>
+          <div class="contact-info-list reveal">
+            <div class="item">
+              <span class="ico">@</span>
+              <div><strong>Correo</strong><span>hola@estrategas360.pe</span></div>
+            </div>
+            <div class="item">
+              <span class="ico">in</span>
+              <div><strong>LinkedIn</strong><span>/in/brendavidalnunez</span></div>
+            </div>
+            <div class="item">
+              <span class="ico">◎</span>
+              <div><strong>Ubicación</strong><span>Lima, Perú · clases 100% online</span></div>
+            </div>
+          </div>
+          <div class="social-row">
+            <a href="#" aria-label="LinkedIn">in</a>
+            <a href="#" aria-label="Instagram">ig</a>
+            <a href="#" aria-label="YouTube">yt</a>
+          </div>
+        </div>
+
+        <form class="contact-form reveal" id="contactForm" novalidate>
+          <div class="form-row two">
+            <div class="field" id="field-nombre">
+              <label for="nombre">Nombre completo</label>
+              <input type="text" id="nombre" name="nombre" placeholder="Tu nombre">
+              <span class="err-msg"></span>
+            </div>
+            <div class="field" id="field-email">
+              <label for="email">Correo electrónico</label>
+              <input type="email" id="email" name="email" placeholder="tucorreo@ejemplo.com">
+              <span class="err-msg"></span>
+            </div>
+          </div>
+
+          <div class="field" id="field-curso">
+            <label for="curso">Curso de interés</label>
+            <select id="curso" name="curso">
+              <option value="">Selecciona un curso</option>
+              <option>Power BI Esencial</option>
+              <option>Power BI Intermedio–Avanzado</option>
+              <option>Excel Empresarial</option>
+              <option>Master Pack Excel + Power BI</option>
+              <option>Aún no lo sé, quiero orientación</option>
+            </select>
+            <span class="err-msg"></span>
+          </div>
+
+          <div class="field" id="field-mensaje">
+            <label for="mensaje">Mensaje</label>
+            <textarea id="mensaje" name="mensaje" placeholder="Cuéntanos tu nivel actual y qué te gustaría lograr"></textarea>
+            <span class="err-msg"></span>
+          </div>
+
+          <button type="submit" class="form-submit">Enviar mensaje</button>
+          <p class="form-note">Te respondemos en menos de 24 horas hábiles.</p>
+
+          <div class="success-msg" id="successMsg">✓ ¡Gracias! Tu mensaje fue enviado, te contactaremos pronto.</div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#inicio" class="logo"><span class="mark">E360</span>Estrategas&nbsp;360</a>
+        <p>Formación práctica en Excel y Power BI para profesionales que quieren decidir con datos, no con intuición.</p>
+      </div>
+      <div>
+        <h4>Navegación</h4>
+        <ul>
+          <li><a href="#inicio">Inicio</a></li>
+          <li><a href="#servicios">Servicios</a></li>
+          <li><a href="#nosotros">Nosotros</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Programas</h4>
+        <ul>
+          <li><a href="#servicios">Power BI Esencial</a></li>
+          <li><a href="#servicios">Power BI Avanzado</a></li>
+          <li><a href="#servicios">Excel Empresarial</a></li>
+          <li><a href="#servicios">Master Pack</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contacto</h4>
+        <ul>
+          <li><a href="mailto:hola@estrategas360.pe">hola@estrategas360.pe</a></li>
+          <li><a href="#" >LinkedIn</a></li>
+          <li><a href="#">Lima, Perú</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span id="year"></span> Estrategas 360. Todos los derechos reservados.</span>
+      <span>Diseñado para profesionales que quieren decidir mejor.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  // Year
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Mobile menu toggle
+  var burger = document.getElementById('burgerBtn');
+  var menu = document.getElementById('mobileMenu');
+  burger.addEventListener('click', function(){
+    var isOpen = menu.classList.toggle('open');
+    burger.classList.toggle('open', isOpen);
+    burger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+  menu.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){
+      menu.classList.remove('open');
+      burger.classList.remove('open');
+      burger.setAttribute('aria-expanded','false');
+    });
+  });
+
+  // Scroll reveal
+  var revealEls = document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, {threshold:0.15});
+    revealEls.forEach(function(el){ io.observe(el); });
+  } else {
+    revealEls.forEach(function(el){ el.classList.add('in'); });
+  }
+
+  // Hero dashboard always visible on load (in case it's above the fold / no IO trigger yet)
+  var dashCard = document.getElementById('dashCard');
+  requestAnimationFrame(function(){ dashCard.classList.add('in'); });
+
+  // Contact form validation
+  var form = document.getElementById('contactForm');
+  var successMsg = document.getElementById('successMsg');
+
+  function setError(fieldId, message){
+    var field = document.getElementById(fieldId);
+    field.classList.add('error');
+    field.querySelector('.err-msg').textContent = message;
+  }
+  function clearError(fieldId){
+    var field = document.getElementById(fieldId);
+    field.classList.remove('error');
+    field.querySelector('.err-msg').textContent = '';
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    successMsg.classList.remove('show');
+
+    var nombre = document.getElementById('nombre').value.trim();
+    var email = document.getElementById('email').value.trim();
+    var curso = document.getElementById('curso').value;
+    var mensaje = document.getElementById('mensaje').value.trim();
+    var valid = true;
+
+    ['field-nombre','field-email','field-curso','field-mensaje'].forEach(clearError);
+
+    if(nombre.length < 2){
+      setError('field-nombre', 'Ingresa tu nombre completo.');
+      valid = false;
+    }
+    var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if(!emailPattern.test(email)){
+      setError('field-email', 'Ingresa un correo válido.');
+      valid = false;
+    }
+    if(!curso){
+      setError('field-curso', 'Selecciona un curso de interés.');
+      valid = false;
+    }
+    if(mensaje.length < 10){
+      setError('field-mensaje', 'Cuéntanos un poco más (mínimo 10 caracteres).');
+      valid = false;
+    }
+
+    if(!valid){
+      var firstError = form.querySelector('.error');
+      if(firstError){ firstError.querySelector('input, select, textarea').focus(); }
+      return;
+    }
+
+    successMsg.classList.add('show');
+    form.reset();
+    successMsg.scrollIntoView({behavior:'smooth', block:'nearest'});
+  });
+})();
+</script>
+
+</body>
+</html>
